@@ -2,14 +2,23 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  loginStart,
+  loginSuccess,
+  loginFailure
+} from "../redux/userSlice";
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [serverMsg, setServerMsg] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     try {
+      dispatch(loginStart());
+
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -19,13 +28,18 @@ export default function Login() {
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || "Login failed");
 
-      // Save JWT and user info
+      // Save token locally (optional)
       localStorage.setItem("token", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user));
 
-      setServerMsg("✅ Login successful! Redirecting to Home...");
+      dispatch(loginSuccess({
+        user: result.user,
+        token: result.token
+      }));
+
+      setServerMsg("✅ Login successful! Redirecting...");
       setTimeout(() => navigate("/"), 1500);
     } catch (err) {
+      dispatch(loginFailure(err.message));
       setServerMsg(`❌ ${err.message}`);
     }
   };
