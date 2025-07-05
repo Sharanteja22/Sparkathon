@@ -1,35 +1,43 @@
 // src/components/Header.jsx
 import { Link } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/userSlice";
+import { FiLogOut } from "react-icons/fi";
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("token"); // optional cleanup
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary px-4">
-      <Link className="navbar-brand" to="/">🛍️ SparkCart</Link>
+    <header className="bg-dark text-white py-3 px-4 d-flex justify-content-between align-items-center">
+      <h4><Link to="/" className="text-white text-decoration-none">Walmart+</Link></h4>
 
-      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-      <div className="collapse navbar-collapse" id="mainNavbar">
-        <ul className="navbar-nav ms-auto">
-          <li className="nav-item">
-            <Link className="nav-link" to="/">Home</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/login">Login</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/register">Register</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link d-flex align-items-center" to="/cart">
-              <FaShoppingCart className="me-1" />
-              Cart
-            </Link>
-          </li>
+      <nav>
+        <ul className="d-flex gap-3 align-items-center list-unstyled m-0">
+          {!user ? (
+            <>
+              <li><Link to="/login" className="text-white">Login</Link></li>
+              <li><Link to="/register" className="text-white">Register</Link></li>
+            </>
+          ) : (
+            <>
+              <li className="text-white fw-bold">Hi, {user.username}</li>
+              <li>
+                <button onClick={handleLogout} className="btn btn-sm btn-outline-light d-flex align-items-center gap-1">
+                  <FiLogOut size={16} />
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
+          <li><Link to="/cart" className="text-white">🛒</Link></li>
         </ul>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }
