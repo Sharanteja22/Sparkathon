@@ -56,11 +56,11 @@ const aggregateDailySummary = async () => {
       );
     }
     // Inside aggregateDailySummary.js (optional extension)
-    const zscore = (values) => {
-    const mean = values.reduce((a, b) => a + b, 0) / values.length;
-    const std = Math.sqrt(values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / values.length);
-    return values.map((val) => ((val - mean) / std).toFixed(2));
-    };
+    // const zscore = (values) => {
+    // const mean = values.reduce((a, b) => a + b, 0) / values.length;
+    // const std = Math.sqrt(values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / values.length);
+    // return values.map((val) => ((val - mean) / std).toFixed(2));
+    // };
 
 
     console.log("✅ Daily summary aggregated for:", dateString);
