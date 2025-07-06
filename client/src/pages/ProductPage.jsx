@@ -2,12 +2,15 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
+
 
 export default function ProductPage() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const { user } = useSelector((state) => state.user);
-
+  const dispatch = useDispatch(); 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -50,6 +53,7 @@ export default function ProductPage() {
                 sessionId: sessionStorage.getItem("sessionId") || "no-session",
                 device: "web",
               });
+              dispatch(addToCart(product));
               alert("Added to cart");
             } else {
               alert("Login to continue");
