@@ -47,7 +47,7 @@ export default function ProductPage() {
           onClick={async () => {
             if (user) {
               await axios.post("/api/logs/event", {
-                userId: user._id,
+                userId: user.id,
                 productId: id,
                 eventType: "cart",
                 sessionId: sessionStorage.getItem("sessionId") || "no-session",
