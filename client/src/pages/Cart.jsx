@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { useSelector } from "react-redux"
@@ -52,7 +50,10 @@ export default function Cart() {
   }
 
   // Calculate totals
-  const subtotal = cartItems.reduce((sum, item) => sum + item.productId.price * item.quantity, 0)
+  const subtotal = cartItems.reduce((sum, item) => {
+    if (!item?.productId || typeof item.productId.price !== 'number') return sum;
+    return sum + item.productId.price * item.quantity;
+  }, 0);
   const tax = subtotal * 0.08
   const shipping = subtotal > 500 ? 0 : 50
   const total = subtotal + tax + shipping
@@ -156,7 +157,7 @@ export default function Cart() {
 
                       {/* Price */}
                       <div className="col-md-2 col-6 mb-3 mb-md-0 text-md-center">
-                        <div className="product-price">₹{item.productId.price}</div>
+                        <div className="product-price">₹{item.productId.actualPrice}</div>
                         <small className="text-muted">₹{item.productId.price} each</small>
                       </div>
 

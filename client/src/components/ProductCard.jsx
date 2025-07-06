@@ -101,7 +101,7 @@ function ProductCard({ product, user, logEvent, onViewProduct }) {
         </h5>
 
         <div className="d-flex justify-content-between align-items-center mb-2">
-          <span className="product-price">₹{product.price}</span>
+          <span className="product-price">₹{product.actualPrice}</span>
           <span className="product-category">{product.category}</span>
         </div>
 

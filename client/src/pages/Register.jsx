@@ -112,8 +112,8 @@ export default function Register() {
                       {...register("password", { 
                         required: "Password is required",
                         minLength: {
-                          value: 6,
-                          message: "Password must be at least 6 characters"
+                          value: 3,
+                          message: "Password must be at least 3 characters"
                         }
                       })}
                       className={`form-control ${errors.password ? 'is-invalid' : ''}`}
