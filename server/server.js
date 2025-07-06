@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require("./routes/auth");
-const productRoutes = require("./routes/productRoutes");
+const logRoutes = require("./routes/logRoutes");
 require('dotenv').config();
 
 const app = express();
@@ -21,6 +21,6 @@ app.get('/', (req, res) => res.send('API running 🚀'));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-app.use("/api/product", productRoutes);
-app.use('/api/log', require("./routes/logRoutes"));
+app.use("/api/logs", logRoutes);
+
 app.use("/api", authRoutes);

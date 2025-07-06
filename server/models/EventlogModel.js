@@ -1,4 +1,3 @@
-// models/EventLog.js
 const mongoose = require("mongoose");
 
 const eventLogSchema = new mongoose.Schema({
@@ -16,6 +15,19 @@ const eventLogSchema = new mongoose.Schema({
     type: String,
     enum: ["view", "cart", "wishlist"],
     required: true
+  },
+  sessionId: {
+    type: String,
+    required: true
+  },
+  device: {
+    type: String,
+    enum: ["web", "mobile", "tablet"],
+    default: "web"
+  },
+  location: {
+    country: String,
+    city: String
   },
   timestamp: {
     type: Date,
