@@ -64,7 +64,8 @@ export default function Header() {
                       </li>
                     )}
                     {user?.role === "user" && (
-                      <li>
+                      <>
+                        <li>
                         <Link to="/cart" className="btn btn-walmart-outline btn-sm position-relative">
                           <FiShoppingCart size={18} />
                           {/* <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -72,6 +73,16 @@ export default function Header() {
                           </span> */}
                         </Link>
                       </li>
+                      <li>
+                        <Link to="/wishlist" className="btn btn-walmart-outline btn-sm position-relative">
+                          Wishlist
+                          {/* <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            0
+                          </span> */}
+                        </Link>
+                      </li>
+                      </>
+                      
                     )}
                     <li>
                       <button
