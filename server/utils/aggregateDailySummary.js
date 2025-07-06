@@ -5,7 +5,7 @@ const moment = require("moment");
 
 const aggregateDailySummary = async () => {
   try {
-    
+
     const yesterday = moment().subtract(1, "days").startOf("day").toDate();
     const today = moment().startOf("day").toDate();
     const dateString = moment(yesterday).format("YYYY-MM-DD");
@@ -51,6 +51,13 @@ const aggregateDailySummary = async () => {
         { upsert: true, new: true }
       );
     }
+    // Inside aggregateDailySummary.js (optional extension)
+    const zscore = (values) => {
+    const mean = values.reduce((a, b) => a + b, 0) / values.length;
+    const std = Math.sqrt(values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / values.length);
+    return values.map((val) => ((val - mean) / std).toFixed(2));
+    };
+
 
     console.log("✅ Daily summary aggregated for:", dateString);
   } catch (err) {

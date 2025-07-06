@@ -12,7 +12,7 @@ function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("/api/product");
+        const res = await axios.get("/api/products");
         setProducts(res.data);
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -24,7 +24,7 @@ function Home() {
   const logEvent = async (productId, eventType) => {
     try {
       if (!user) return;
-      await axios.post("/api/logs", {
+      await axios.post("/api/logs/event", {
         userId: user._id,
         productId,
         eventType,

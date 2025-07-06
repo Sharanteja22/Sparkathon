@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useSelector } from "react-redux";
 
 export default function ProductPage() {
@@ -9,65 +10,76 @@ export default function ProductPage() {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const res = await fetch(`/api/products/${id}`);
-      const data = await res.json();
-      setProduct(data);
+      try {
+        const res = await axios.get(`/api/products/${id}`);
+        setProduct(res.data);
 
-      // Log view event
-      if (user) {
-        await fetch("/api/events", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+        // Log product view
+        if (user) {
+          await axios.post("/api/logs", {
+            userId: user._id,
             productId: id,
             eventType: "view",
-            userId: user.id
-          })
-        });
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch product", err);
       }
     };
 
     fetchProduct();
   }, [id, user]);
 
-  const logEvent = async (type) => {
-    if (!user) return alert("Login required");
-    await fetch("/api/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        productId: id,
-        eventType: type,
-        userId: user.id
-      })
-    });
-    alert(`${type} logged`);
-  };
-
-  if (!product) return <div className="p-4">Loading...</div>;
+  if (!product) return <p className="text-center mt-5">Loading...</p>;
 
   return (
-    <div className="container mt-5">
-      <div className="card p-4">
-        <img src={product.image} alt={product.name} className="w-25 mb-3" />
-        <h3>{product.name}</h3>
-        <p><strong>Brand:</strong> {product.brand}</p>
-        <p><strong>Category:</strong> {product.category}</p>
-        <p><strong>Actual Price:</strong> ₹{product.actualPrice}</p>
-        {product.offerPrice && (
-          <p><strong>Offer Price:</strong> ₹{product.offerPrice}</p>
-        )}
-        <p><strong>Available:</strong> {product.available ? "Yes" : "Out of Stock"}</p>
-        <p><strong>Rating:</strong> {product.rating}</p>
+    <div className="container mx-auto px-4 py-6 max-w-2xl">
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-72 object-cover rounded mb-4"
+      />
+      <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
+      <p className="text-lg text-gray-700 mb-1">₹{product.price}</p>
+      <p className="text-sm text-gray-400 mb-4">{product.category}</p>
+      <p className="mb-4">{product.description}</p>
 
-        <div className="d-flex gap-3 mt-3">
-          <button className="btn btn-primary" onClick={() => logEvent("cart")}>
-            Add to Cart
-          </button>
-          <button className="btn btn-outline-danger" onClick={() => logEvent("wishlist")}>
-            Add to Wishlist
-          </button>
-        </div>
+      <div className="flex gap-3">
+        <button
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          onClick={async () => {
+            if (user) {
+              await axios.post("/api/logs", {
+                userId: user._id,
+                productId: id,
+                eventType: "cart",
+              });
+              alert("Added to cart");
+            } else {
+              alert("Login to continue");
+            }
+          }}
+        >
+          Add to Cart
+        </button>
+
+        <button
+          className="px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-600"
+          onClick={async () => {
+            if (user) {
+              await axios.post("/api/logs", {
+                userId: user._id,
+                productId: id,
+                eventType: "wishlist",
+              });
+              alert("Added to wishlist");
+            } else {
+              alert("Login to continue");
+            }
+          }}
+        >
+          Wishlist
+        </button>
       </div>
     </div>
   );

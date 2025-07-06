@@ -8,7 +8,7 @@ function ProductCard({ product, logEvent, onViewProduct }) {
       alt={product.name}
       className="w-full h-48 object-cover object-center rounded-md mb-2 cursor-pointer"
       onClick={() => {
-        logEvent(product._id, "viewed");
+        logEvent(product._id, "view");
         onViewProduct(product._id);
       }}
     />
@@ -20,14 +20,14 @@ function ProductCard({ product, logEvent, onViewProduct }) {
       <div className="flex gap-2">
         <button
           className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-          onClick={() => logEvent(product._id, "added_to_cart")}
+          onClick={() => logEvent(product._id, "cart")}
         >
           Add to Cart
         </button>
 
         <button
           className="px-3 py-1 bg-pink-500 text-white rounded hover:bg-pink-600"
-          onClick={() => logEvent(product._id, "wishlisted")}
+          onClick={() => logEvent(product._id, "wishlist")}
         >
           Wishlist
         </button>
