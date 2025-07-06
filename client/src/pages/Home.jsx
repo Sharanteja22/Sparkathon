@@ -3,11 +3,15 @@ import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getSessionId } from "../utils/session";
 
 function Home() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
+//   useEffect(() => {
+//   console.log("🧠 Current Redux User:", user);
+// }, [user]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,12 +27,25 @@ function Home() {
 
   const logEvent = async (productId, eventType) => {
     try {
-      if (!user) return;
-      await axios.post("/api/logs/event", {
-        userId: user._id,
+      if (!user || !productId || !eventType) return;
+
+      const sessionId = getSessionId();
+      const payload = {
+        userId: user.id,
         productId,
         eventType,
-      });
+        sessionId,
+        device: "web"
+      };
+
+      
+
+      await axios.post("/api/logs/event", payload,{
+  headers: {
+    "Content-Type": "application/json"
+  }}
+);
+
     } catch (err) {
       console.error("Error logging event:", err);
     }

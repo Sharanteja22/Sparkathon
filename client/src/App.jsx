@@ -8,7 +8,14 @@ import Cart from "./pages/Cart";
 import Wishlist from "./pages/Whishlist";
 import ProductPage from "./pages/ProductPage";
 import AdminDashboard from "./pages/AdminDashboard";
+import { useEffect } from "react";
 function App() {
+  useEffect(() => {
+  if (!sessionStorage.getItem("sessionId")) {
+    sessionStorage.setItem("sessionId", crypto.randomUUID());
+  }
+}, []);
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

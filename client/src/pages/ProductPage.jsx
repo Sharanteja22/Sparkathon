@@ -15,13 +15,7 @@ export default function ProductPage() {
         setProduct(res.data);
 
         // Log product view
-        if (user) {
-          await axios.post("/api/logs", {
-            userId: user._id,
-            productId: id,
-            eventType: "view",
-          });
-        }
+       
       } catch (err) {
         console.error("Failed to fetch product", err);
       }
@@ -49,10 +43,12 @@ export default function ProductPage() {
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           onClick={async () => {
             if (user) {
-              await axios.post("/api/logs", {
+              await axios.post("/api/logs/event", {
                 userId: user._id,
                 productId: id,
                 eventType: "cart",
+                sessionId: sessionStorage.getItem("sessionId") || "no-session",
+                device: "web",
               });
               alert("Added to cart");
             } else {
@@ -67,10 +63,12 @@ export default function ProductPage() {
           className="px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-600"
           onClick={async () => {
             if (user) {
-              await axios.post("/api/logs", {
+              await axios.post("/api/logs/event", {
                 userId: user._id,
                 productId: id,
                 eventType: "wishlist",
+                sessionId: sessionStorage.getItem("sessionId") || "no-session",
+                device: "web",
               });
               alert("Added to wishlist");
             } else {
