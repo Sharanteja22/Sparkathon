@@ -9,8 +9,9 @@ export default function Header() {
   const { user } = useSelector((state) => state.user);
 
   const handleLogout = () => {
-    dispatch(logout());
+    localStorage.removeItem("user");
     localStorage.removeItem("token");
+    dispatch(logout());
   };
 
   return (

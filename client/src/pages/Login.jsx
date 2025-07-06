@@ -27,10 +27,8 @@ export default function Login() {
 
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || "Login failed");
-
-      // Save token locally (optional)
-      localStorage.setItem("token", result.token);
-
+      localStorage.setItem("user", JSON.stringify(result.user));  // ⬅️ ADD THIS
+      localStorage.setItem("token", result.token);   
       dispatch(loginSuccess({
         user: result.user,
         token: result.token
