@@ -7,7 +7,7 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Whishlist";
 import ProductPage from "./pages/ProductPage";
-
+import AdminDashboard from "./pages/AdminDashboard";
 function App() {
   return (
     <Routes>
@@ -18,6 +18,7 @@ function App() {
         <Route path="cart" element={<Cart />} />
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="product/:id" element={<ProductPage />} />
+        <Route path="admin" element={<AdminDashboard />} />
       </Route>
     </Routes>
   );

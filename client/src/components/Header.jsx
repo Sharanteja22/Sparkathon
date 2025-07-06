@@ -10,12 +10,14 @@ export default function Header() {
 
   const handleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem("token"); // optional cleanup
+    localStorage.removeItem("token");
   };
 
   return (
     <header className="bg-dark text-white py-3 px-4 d-flex justify-content-between align-items-center">
-      <h4><Link to="/" className="text-white text-decoration-none">Walmart+</Link></h4>
+      <h4>
+        <Link to="/" className="text-white text-decoration-none">Walmart+</Link>
+      </h4>
 
       <nav>
         <ul className="d-flex gap-3 align-items-center list-unstyled m-0">
@@ -27,6 +29,13 @@ export default function Header() {
           ) : (
             <>
               <li className="text-white fw-bold">Hi, {user.username}</li>
+
+              {user.role === "admin" && (
+                <li>
+                  <Link to="/admin" className="btn btn-warning btn-sm">Admin Dashboard</Link>
+                </li>
+              )}
+
               <li>
                 <button onClick={handleLogout} className="btn btn-sm btn-outline-light d-flex align-items-center gap-1">
                   <FiLogOut size={16} />

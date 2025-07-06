@@ -47,6 +47,13 @@ export default function Register() {
           <input type="password" {...register("password", { required: true })} className="form-control" />
           {errors.password && <small className="text-danger">Password is required</small>}
         </div>
+        <div className="mb-3">
+        <label>Role</label>
+          <select {...register("role")} className="form-select">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
         <button className="btn btn-primary w-100">Register</button>
       </form>
     </div>

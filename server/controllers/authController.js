@@ -8,7 +8,8 @@ const JWT_SECRET = "supersecret123"; // Replace with env var later
 // Register a new user
 exports.registerUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+   const { username, email, password, role = "user" } = req.body;
+
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -22,7 +23,8 @@ exports.registerUser = async (req, res) => {
     const newUser = new User({
       username,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      role
     });
 
     await newUser.save();
@@ -55,7 +57,8 @@ exports.loginUser = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
   } catch (err) {
