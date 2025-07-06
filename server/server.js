@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require("./routes/auth");
 const logRoutes = require("./routes/logRoutes");
+const adminRoutes = require("./routes/admin");
 require('dotenv').config();
 
 const app = express();
@@ -22,5 +23,5 @@ app.get('/', (req, res) => res.send('API running 🚀'));
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 app.use("/api/logs", logRoutes);
-
+app.use("/api/admin", adminRoutes);
 app.use("/api", authRoutes);
