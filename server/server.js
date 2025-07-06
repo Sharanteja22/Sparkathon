@@ -4,6 +4,7 @@ const cors = require('cors');
 const authRoutes = require("./routes/auth");
 const logRoutes = require("./routes/logRoutes");
 const adminRoutes = require("./routes/admin");
+const cartRoutes = require("./routes/cartRoutes");
 
 const productRoutes = require("./routes/productRoutes");
 require('dotenv').config();
@@ -28,3 +29,5 @@ app.use("/api/logs", logRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api", authRoutes);
+
+app.use("/api/cart", cartRoutes);
