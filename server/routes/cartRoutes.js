@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
-const Product = require("../models/Product"); // Optional for population
+const User = require("../models/UserModel");
+const Product = require("../models/ProductModel"); // Optional for population
 
 // 🛒 GET: Fetch user's cart
 router.get("/:userId", async (req, res) => {

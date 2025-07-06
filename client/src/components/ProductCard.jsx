@@ -21,9 +21,19 @@ function ProductCard({ product, logEvent, onViewProduct }) {
         <button
           className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
           onClick={() => {
-            if (logEvent) logEvent(product._id, "cart");
-            alert("Added to cart (event logged)");
+            if (user) {
+              logEvent(product._id, "cart");
+              axios.post("/api/cart/add", {
+                userId: user.id,
+                productId: product._id,
+                quantity: 1
+              }).then(() => alert("Added to cart!"))
+                .catch((err) => console.error("Add to cart failed:", err));
+            } else {
+              alert("Login first");
+            }
           }}
+
         >
           Add to Cart
         </button>

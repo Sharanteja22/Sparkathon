@@ -1,19 +1,59 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useSelector } from "react-redux";
 
 export default function Cart() {
-  const cartItems = useSelector((state) => state.cart.items);
+  const { user } = useSelector((state) => state.user);
+  const [cartItems, setCartItems] = useState([]);
 
-  if (cartItems.length === 0) return <p className="text-center mt-5">Cart is empty</p>;
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        if (!user) return;
+        const res = await axios.get(`/api/cart/${user.id}`);
+        setCartItems(res.data);
+      } catch (err) {
+        console.error("Error fetching cart", err);
+      }
+    };
+
+    fetchCart();
+  }, [user]);
+
+  const removeFromCart = async (productId) => {
+    try {
+      await axios.post("/api/cart/remove", {
+        userId: user.id,
+        productId
+      });
+      setCartItems(prev => prev.filter(item => item.productId._id !== productId));
+    } catch (err) {
+      console.error("Failed to remove item", err);
+    }
+  };
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
-      {cartItems.map((item) => (
-        <div key={item._id} className="border p-4 rounded mb-2">
-          <h3 className="text-lg font-semibold">{item.name}</h3>
-          <p>₹{item.price}</p>
-        </div>
-      ))}
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-semibold mb-4">🛒 Your Cart</h2>
+      {cartItems.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
+        cartItems.map((item) => (
+          <div key={item.productId._id} className="border p-3 rounded mb-3 flex items-center justify-between">
+            <div>
+              <p className="font-semibold">{item.productId.name}</p>
+              <p>₹{item.productId.price}</p>
+              <p>Quantity: {item.quantity}</p>
+            </div>
+            <button
+              className="px-3 py-1 bg-red-500 text-white rounded"
+              onClick={() => removeFromCart(item.productId._id)}
+            >
+              Remove
+            </button>
+          </div>
+        ))
+      )}
     </div>
   );
 }

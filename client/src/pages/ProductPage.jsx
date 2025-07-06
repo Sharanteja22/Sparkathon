@@ -46,15 +46,17 @@ export default function ProductPage() {
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           onClick={async () => {
             if (user) {
-              await axios.post("/api/logs/event", {
-                userId: user.id,
-                productId: id,
-                eventType: "cart",
-                sessionId: sessionStorage.getItem("sessionId") || "no-session",
-                device: "web",
-              });
-              dispatch(addToCart(product));
-              alert("Added to cart");
+              try {
+                await axios.post("/api/cart/add", {
+                  userId: user.id,        // 👈 use correct user ID field
+                  productId: id,
+                  quantity: 1
+                });
+                alert("🛒 Added to cart!");
+              } catch (err) {
+                console.error("Cart Add Error:", err);
+                alert("Failed to add to cart");
+              }
             } else {
               alert("Login to continue");
             }
@@ -62,7 +64,6 @@ export default function ProductPage() {
         >
           Add to Cart
         </button>
-
         <button
           className="px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-600"
           onClick={async () => {
