@@ -30,7 +30,7 @@ export default function Header() {
           ) : (
             <>
               <li className="text-white fw-bold">Hi, {user.username}</li>
-
+              <li className="text-white fw-bold px-3">Role: {user?.role}</li>
               {user.role === "admin" && (
                 <li>
                   <Link to="/admin" className="btn btn-warning btn-sm">Admin Dashboard</Link>
@@ -43,9 +43,14 @@ export default function Header() {
                   Logout
                 </button>
               </li>
+              {
+            user?.role==='user' &&
+            <li><Link to="/cart" className="text-white">🛒</Link></li>
+          }
+          
             </>
           )}
-          <li><Link to="/cart" className="text-white">🛒</Link></li>
+          
         </ul>
       </nav>
     </header>
