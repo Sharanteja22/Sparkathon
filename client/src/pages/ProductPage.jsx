@@ -52,6 +52,14 @@ export default function ProductPage() {
                   productId: id,
                   quantity: 1
                 });
+                await axios.post("/api/logs/event", {
+              userId: user.id,
+              productId: id,
+              eventType: "cart",
+              sessionId: sessionStorage.getItem("sessionId") || "no-session",
+              device: "web",
+            });
+
                 alert("🛒 Added to cart!");
               } catch (err) {
                 console.error("Cart Add Error:", err);

@@ -63,6 +63,7 @@ function Home() {
         <ProductCard
         key={product._id}
         product={product}
+        user = {user}
         logEvent={logEvent}
         onViewProduct={onViewProduct}
         />
