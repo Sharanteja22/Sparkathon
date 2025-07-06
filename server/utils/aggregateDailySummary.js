@@ -6,9 +6,13 @@ const moment = require("moment");
 const aggregateDailySummary = async () => {
   try {
 
-    const yesterday = moment().subtract(1, "days").startOf("day").toDate();
-    const today = moment().startOf("day").toDate();
-    const dateString = moment(yesterday).format("YYYY-MM-DD");
+    // const yesterday = moment().subtract(1, "days").startOf("day").toDate();
+    // const today = moment().startOf("day").toDate();
+    // const dateString = moment(yesterday).format("YYYY-MM-DD");
+    const yesterday = moment().startOf("day").toDate();       // today 00:00
+    const today = new Date();                               // now
+
+    const dateString = moment().format("YYYY-MM-DD");
 
     const aggregation = await EventLog.aggregate([
       {

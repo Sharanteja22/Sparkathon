@@ -13,7 +13,9 @@ export default function AdminDashboard() {
         }
       });
       const result = await res.json();
+      console.log("📊 Fetched Summary:", result);
       setData(result);
+
     } catch (err) {
       console.error(err);
     }
@@ -55,6 +57,7 @@ export default function AdminDashboard() {
       carts: d.carts,
       wishlists: d.wishlists,
     });
+    console.log("🔁 Summary Row:", d);
   });
 
   return (
