@@ -122,7 +122,7 @@ export default function AdminDashboard() {
         }
       });
       const result = await res.json();
-      console.log("📊 Fetched Summary:", result);
+      // console.log("📊 Fetched Summary:", result);
       setData(result);
     } catch (err) {
       console.error(err);
@@ -167,9 +167,9 @@ export default function AdminDashboard() {
       purchases: d.purchases,
       wishlists: d.wishlists,
       productId: d.productId._id,
-      // cost: d.cost
+      cost: d.cost
     });
-    console.log("🔁 Summary Row:", d);
+    // console.log("🔁 Summary Row:", d);
   });
 
   const fetchInsight = async (productName, latest) => {
@@ -206,11 +206,13 @@ export default function AdminDashboard() {
 
       {Object.entries(grouped).map(([product, trend], i) => {
         const latest = trend[trend.length - 1];
-
+        console.log(product, trend);
         return (
           <div key={i} className="mb-5">
-            <h4>{product}</h4>
-
+            <div className="d-flex align-items-center gap-3">
+              <h4>{product}</h4>
+              <h5>cost: {trend[0].cost}</h5>
+            </div>
             <LineChart width={600} height={250} data={trend}>
               <Line type="monotone" dataKey="views" stroke="#8884d8" />
               <Line type="monotone" dataKey="carts" stroke="#82ca9d" />
@@ -234,7 +236,7 @@ export default function AdminDashboard() {
               <Bar dataKey="wishlists" fill="#ff7300" />
               <Bar dataKey="purchases" fill="#ff0000" />
             </BarChart>
-            {/* <h1>Cost: `${cost}`</h1> */}
+
             <button
               className="btn btn-outline-info mt-3"
               onClick={() => fetchInsight(product, latest)}
