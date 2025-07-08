@@ -85,7 +85,7 @@ function ProductCard({ product, user, logEvent, onViewProduct }) {
           <button
             className="btn btn-light btn-sm rounded-circle shadow-sm"
             onClick={() => {
-              logEvent(product._id, "view")
+              logEvent(product._id, "view",product.actualPrice)
               onViewProduct(product._id)
             }}
             title="Quick View"
@@ -111,7 +111,7 @@ function ProductCard({ product, user, logEvent, onViewProduct }) {
               className="btn btn-add-cart btn-sm flex-fill"
               onClick={() => {
                 if (user) {
-                  logEvent(product._id, "cart")
+                  logEvent(product._id, "cart",product.actualPrice)
                   axios
                     .post("/api/cart/add", {
                       userId: user.id,
@@ -146,7 +146,7 @@ function ProductCard({ product, user, logEvent, onViewProduct }) {
             <button
               className="btn btn-wishlist btn-sm"
               onClick={() => {
-                if (logEvent) logEvent(product._id, "wishlist")
+                if (logEvent) logEvent(product._id, "wishlist",product.actualPrice)
                 const alert = document.createElement("div")
                 alert.className = "alert alert-info alert-dismissible fade show position-fixed"
                 alert.style.cssText = "top: 20px; right: 20px; z-index: 9999; min-width: 300px;"

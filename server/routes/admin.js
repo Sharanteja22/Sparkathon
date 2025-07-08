@@ -20,7 +20,7 @@
   router.get("/daily-summary", async (req, res) => {
   try {
     const summary = await DailySummary.find({})
-      .populate("productId", "name")  // populate just product name
+      .populate("productId", "name actualPrice")  // populate just product name
       .sort({ date: 1 });
 
     res.json(summary);

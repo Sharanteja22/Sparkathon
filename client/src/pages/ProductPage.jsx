@@ -43,6 +43,8 @@ export default function ProductPage() {
           eventType: "cart",
           sessionId: sessionStorage.getItem("sessionId") || "no-session",
           device: "web",
+          cost:product.actualPrice
+       
         })
 
         // Success notification
@@ -72,6 +74,7 @@ export default function ProductPage() {
         eventType: "wishlist",
         sessionId: sessionStorage.getItem("sessionId") || "no-session",
         device: "web",
+        cost:product.actualPrice
       })
 
       // Success notification

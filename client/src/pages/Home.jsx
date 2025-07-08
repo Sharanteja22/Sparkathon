@@ -31,7 +31,7 @@ function Home() {
     fetchProducts()
   }, [])
 
-  const logEvent = async (productId, eventType) => {
+  const logEvent = async (productId, eventType,cost) => {
     try {
       if (!user || !productId || !eventType) return
       const sessionId = getSessionId()
@@ -39,6 +39,7 @@ function Home() {
         userId: user.id,
         productId,
         eventType,
+        cost,
         sessionId,
         device: "web",
       }

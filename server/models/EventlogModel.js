@@ -13,7 +13,7 @@ const eventLogSchema = new mongoose.Schema({
   },
   eventType: {
     type: String,
-    enum: ["view", "cart", "wishlist"],
+    enum: ["view", "cart", "wishlist", "purchase"],
     required: true
   },
   sessionId: {
@@ -32,6 +32,11 @@ const eventLogSchema = new mongoose.Schema({
   timestamp: {
     type: Date,
     default: Date.now
+  },
+  cost: {
+    type: Number,
+    default: 0
+    
   }
 });
 

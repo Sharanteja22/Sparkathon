@@ -27,26 +27,29 @@ const aggregateDailySummary = async () => {
         $group: {
           _id: {
             productId: "$productId",
-            eventType: "$eventType"
+            eventType: "$eventType",
           },
-          count: { $sum: 1 }
+          count: { $sum: 1 },
+          cost: { $first: "$cost" }
         }
       }
     ]);
 
     const summaryMap = {};
 
-    aggregation.forEach(({ _id, count }) => {
+    aggregation.forEach(({ _id, count ,cost}) => {
       const { productId, eventType } = _id;
       if (!summaryMap[productId]) {
-        summaryMap[productId] = { views: 0, carts: 0, wishlists: 0 };
+        summaryMap[productId] = { views: 0, carts: 0, wishlists: 0,purchases:0,cost:0 };
       }
-
+    
       if (eventType === "view") summaryMap[productId].views += count;
       else if (eventType === "cart") summaryMap[productId].carts += count;
       else if (eventType === "wishlist") summaryMap[productId].wishlists += count;
-    });
+      else if(eventType === "purchase") summaryMap[productId].purchases += count;
+      summaryMap[productId].cost=cost;
 
+    });
     for (const productId in summaryMap) {
       const summary = summaryMap[productId];
       await DailySummary.findOneAndUpdate(
@@ -55,13 +58,14 @@ const aggregateDailySummary = async () => {
         { upsert: true, new: true }
       );
     }
+
     // Inside aggregateDailySummary.js (optional extension)
     // const zscore = (values) => {
     // const mean = values.reduce((a, b) => a + b, 0) / values.length;
     // const std = Math.sqrt(values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / values.length);
     // return values.map((val) => ((val - mean) / std).toFixed(2));
     // };
-
+    console.log("summary dfa ",summaryMap)
 
     console.log("✅ Daily summary aggregated for:", dateString);
   } catch (err) {

@@ -5,8 +5,8 @@ const authRoutes = require("./routes/auth");
 const logRoutes = require("./routes/logRoutes");
 const adminRoutes = require("./routes/admin");
 const cartRoutes = require("./routes/cartRoutes");
-
 const productRoutes = require("./routes/productRoutes");
+const aiRoutes = require("./routes/ai");
 require('dotenv').config();
 
 const app = express();
@@ -29,5 +29,5 @@ app.use("/api/logs", logRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api", authRoutes);
-
+app.use("/api/ai", aiRoutes);
 app.use("/api/cart", cartRoutes);

@@ -21,6 +21,14 @@ const dailySummarySchema = new mongoose.Schema({
   wishlists: {
     type: Number,
     default: 0
+  },
+  purchases:{
+    type:Number,
+    default:0
+  },
+  cost:{
+    type:Number,
+    default:0
   }
 });
 

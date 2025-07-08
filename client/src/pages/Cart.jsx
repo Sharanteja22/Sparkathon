@@ -25,6 +25,49 @@ export default function Cart() {
     fetchCart()
   }, [user])
 
+
+  const handleCheckout = async () => {
+  if (!user) {
+    alert("Login to continue")
+    return
+  }
+
+  try {
+    const sessionId = sessionStorage.getItem("sessionId") || "no-session"
+
+    // Loop through all items and send a POST request for each purchase
+    for (const item of cartItems) {
+      await axios.post("/api/logs/event", {
+        userId: user.id,
+        productId: item.productId._id,
+        eventType: "purchase",
+        sessionId,
+        device: "web",
+      })
+    }
+
+    // Show success alert
+    const alert = document.createElement("div")
+    alert.className = "alert alert-success alert-dismissible fade show position-fixed"
+    alert.style.cssText = "top: 20px; right: 20px; z-index: 9999; min-width: 300px;"
+    alert.innerHTML = `
+      <strong>✅ Purchase Logged!</strong> Proceeded to checkout.
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `
+    document.body.appendChild(alert)
+    setTimeout(() => alert.remove(), 3000)
+
+    // You can also redirect to payment page here if needed
+    // navigate("/payment");
+
+  } catch (err) {
+    console.error("Checkout Error:", err)
+    alert("Failed to proceed to checkout")
+  }
+}
+
+
+
   const removeFromCart = async (productId) => {
     try {
       await axios.post("/api/cart/remove", {
@@ -207,7 +250,7 @@ export default function Cart() {
                 </div>
 
                 <div className="d-grid gap-2">
-                  <button className="btn btn-walmart-primary btn-lg">
+                  <button className="btn btn-walmart-primary btn-lg"  onClick={handleCheckout}>
                     Proceed to Checkout
                   </button>
                   <Link to="/" className="btn btn-walmart-outline">
