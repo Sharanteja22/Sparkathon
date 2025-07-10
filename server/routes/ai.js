@@ -25,9 +25,9 @@ Given the following product engagement:
 
 
 Assume that average product metrics are:
-- Views: 3000
-- Carts: 300
-- Wishlists: 100
+- Views: 7
+- Carts: 3
+- Wishlists: 5
 
 Compare the product against these averages and:
 

@@ -30,7 +30,7 @@ const aggregateDailySummary = async () => {
             eventType: "$eventType",
           },
           count: { $sum: 1 },
-          cost: { $first: "$cost" }
+          cost: { $last: "$cost" }
         }
       }
     ]);
@@ -48,6 +48,7 @@ const aggregateDailySummary = async () => {
       else if (eventType === "wishlist") summaryMap[productId].wishlists += count;
       else if(eventType === "purchase") summaryMap[productId].purchases += count;
       summaryMap[productId].cost=cost;
+      // console.log(cost)
 
     });
     for (const productId in summaryMap) {
@@ -65,7 +66,7 @@ const aggregateDailySummary = async () => {
     // const std = Math.sqrt(values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / values.length);
     // return values.map((val) => ((val - mean) / std).toFixed(2));
     // };
-    console.log("summary dfa ",summaryMap)
+    // console.log("summary dfa ",summaryMap)
 
     console.log("✅ Daily summary aggregated for:", dateString);
   } catch (err) {

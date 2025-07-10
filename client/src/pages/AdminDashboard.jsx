@@ -172,6 +172,7 @@ export default function AdminDashboard() {
     // console.log("🔁 Summary Row:", d);
   });
 
+  // console.log(grouped)
   const fetchInsight = async (productName, latest) => {
     try {
       const res = await fetch("/api/ai/predict-insight", {
@@ -206,36 +207,39 @@ export default function AdminDashboard() {
 
       {Object.entries(grouped).map(([product, trend], i) => {
         const latest = trend[trend.length - 1];
-        console.log(product, trend);
+        // console.log(product, trend);
         return (
           <div key={i} className="mb-5">
             <div className="d-flex align-items-center gap-3">
               <h4>{product}</h4>
-              <h5>cost: {trend[0].cost}</h5>
+              <h5>cost: {latest.cost}</h5>
             </div>
-            <LineChart width={600} height={250} data={trend}>
-              <Line type="monotone" dataKey="views" stroke="#8884d8" />
-              <Line type="monotone" dataKey="carts" stroke="#82ca9d" />
-              <Line type="monotone" dataKey="wishlists" stroke="#ff7300" />
-              <Line type="monotone" dataKey="purchases" stroke="#ff0000" />
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-            </LineChart>
+            <div className="d-flex">
 
-            <BarChart width={600} height={200} data={trend}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="views" fill="#8884d8" />
-              <Bar dataKey="carts" fill="#82ca9d" />
-              <Bar dataKey="wishlists" fill="#ff7300" />
-              <Bar dataKey="purchases" fill="#ff0000" />
-            </BarChart>
+              <LineChart width={600} height={250} data={trend}>
+                <Line type="monotone" dataKey="views" stroke="#8884d8" />
+                <Line type="monotone" dataKey="carts" stroke="#82ca9d" />
+                <Line type="monotone" dataKey="wishlists" stroke="#ff7300" />
+                <Line type="monotone" dataKey="purchases" stroke="#ff0000" />
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+              </LineChart>
+
+              <BarChart width={600} height={200} data={trend}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="views" fill="#8884d8" />
+                <Bar dataKey="carts" fill="#82ca9d" />
+                <Bar dataKey="wishlists" fill="#ff7300" />
+                <Bar dataKey="purchases" fill="#ff0000" />
+              </BarChart>
+            </div>
 
             <button
               className="btn btn-outline-info mt-3"

@@ -12,7 +12,7 @@ exports.logUserEvent = async (req, res) => {
       cost,
       location
     } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     if (!productId || !userId || !eventType || !sessionId) {
       return res.status(400).json({ error: "Missing required fields" });
